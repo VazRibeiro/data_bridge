@@ -23,8 +23,8 @@ public:
     {
         // Define QoS settings
         rclcpp::QoS qos_settings(rclcpp::QoSInitialization::from_rmw(rmw_qos_profile_default));
-        qos_settings.reliability(rclcpp::ReliabilityPolicy::Reliable);
-        qos_settings.durability(rclcpp::DurabilityPolicy::TransientLocal);
+        qos_settings.reliability(rclcpp::ReliabilityPolicy::BestEffort);
+        qos_settings.durability(rclcpp::DurabilityPolicy::Volatile);
 
         // ROS subscriptions with explicit QoS
         can_sub_ = create_subscription<can_msgs::msg::Frame>(
@@ -114,7 +114,7 @@ private:
         RCLCPP_INFO(get_logger(), "Client disconnected");
     }
 
-    void on_message(websocketpp::connection_hdl hdl, message_ptr msg)
+    void on_message(websocketpp::connection_hdl /*hdl*/, message_ptr msg)
     {
         try {
             auto data = json::parse(msg->get_payload());
