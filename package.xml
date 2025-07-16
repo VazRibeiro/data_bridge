@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>data_bridge</name>
+  <version>1.0.0</version>
+  <description>Data bridge for remote access to Evabot</description>
+  <maintainer email="evabot@example.com">Evabot Team</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>can_msgs</depend>
+  <depend>diagnostic_msgs</depend>
+  <depend>std_msgs</depend>
+  
+  <!-- C++ dependencies for Protocol Buffer bridge -->
+  <buildtool_depend>libwebsocketpp-dev</buildtool_depend>
+  <buildtool_depend>nlohmann-json3-dev</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

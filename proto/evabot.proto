@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package evabot.msgs;
+
+// CAN Frame message
+message CanFrame {
+  uint32 id = 1;
+  uint32 dlc = 2;
+  bytes data = 3;
+  uint64 timestamp_ns = 4;
+  bool is_extended = 5;
+  bool is_error = 6;
+  bool is_rtr = 7;
+}
+
+// Vector3 for position and orientation
+message Vector3 {
+  double x = 1;
+  double y = 2;
+  double z = 3;
+}
+
+// Robot state message
+message RobotState {
+  uint64 timestamp_ns = 1;
+  
+  // Position and orientation
+  Vector3 position = 2;
+  Vector3 orientation = 3;
+  Vector3 linear_velocity = 4;
+  Vector3 angular_velocity = 5;
+  
+  // System status
+  double battery_voltage = 6;
+  double battery_percentage = 7;
+  double system_temperature = 8;
+  
+  // Operational state
+  bool emergency_stopped = 9;
+  bool motors_enabled = 10;
+  string current_mode = 11;
+  
+  // For future video streaming
+  bytes compressed_image = 12;
+  string image_encoding = 13;
+}
+
+// Diagnostic message
+message DiagnosticStatus {
+  enum Level {
+    OK = 0;
+    WARN = 1;
+    ERROR = 2;
+    STALE = 3;
+  }
+  
+  Level level = 1;
+  string name = 2;
+  string message = 3;
+  string hardware_id = 4;
+  repeated KeyValue values = 5;
+}
+
+message KeyValue {
+  string key = 1;
+  string value = 2;
+}
+
+// Wrapper message for different message types
+message EvabotMessage {
+  uint64 timestamp_ns = 1;
+  string topic = 2;
+  
+  oneof payload {
+    CanFrame can_frame = 3;
+    RobotState robot_state = 4;
+    DiagnosticStatus diagnostic = 5;
+  }
+}
